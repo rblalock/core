@@ -1,0 +1,10 @@
+"#placeholder": {
+	width: Ti.UI.SIZE,
+	height: Ti.UI.SIZE,
+	landscape: {
+		backgroundColor: "red"
+	},
+	portrait: {
+		backgroundColor: "green"
+	}
+}
