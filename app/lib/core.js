@@ -7,30 +7,44 @@ var Alloy = require("alloy");
 
 var App = {
 	/**
-	 * Current orientation state
-	 * @type {String} portrait | landscape
+	 * Device information
+	 * @type {Object}
+	 * @param {Boolean} isHandheld Whether the device is a handheld
+	 * @param {Boolean} isTablet Whether the device is a tablet
+	 * @param {String} os The name of the OS, either "IOS" or "ANDROID"
+	 * @param {String} name The name of the device, either "IPHONE", "IPAD" or the device model if Android
+	 * @param {String} version The version of the OS
+	 * @param {Number} versionMajor The major version of the OS
+	 * @param {Number} versionMinor The minor version of the OS
+	 * @param {Number} width The width of the device screen
+	 * @param {Number} height The height of the device screen
+	 * @param {Number} dpi The DPI of the device screen
+	 * @param {String} orientation The device orientation, either "landscape" or "portrait"
+	 * @param {String} statusBarOrientation A Ti.UI orientation value
 	 */
-	currentOrientation: Ti.Gesture.orientation == Ti.UI.LANDSCAPE_LEFT || Ti.Gesture.orientation == Ti.UI.LANDSCAPE_RIGHT ? "landscape" : "portrait",
+	Device: {
+		isHandheld: Alloy.isHandheld,
+		isTablet: Alloy.isTablet,
+		os: null,
+		name: null,
+		version: Ti.Platform.version,
+		versionMajor: parseInt(Ti.Platform.version.split(".")[0], 10),
+		versionMinor: parseInt(Ti.Platform.version.split(".")[1], 10),
+		width: Ti.Platform.displayCaps.platformWidth > Ti.Platform.displayCaps.platformHeight ? Ti.Platform.displayCaps.platformHeight : Ti.Platform.displayCaps.platformWidth,
+		height: Ti.Platform.displayCaps.platformWidth > Ti.Platform.displayCaps.platformHeight ? Ti.Platform.displayCaps.platformWidth : Ti.Platform.displayCaps.platformHeight,
+		dpi: Ti.Platform.displayCaps.dpi,
+		orientation: Ti.Gesture.orientation == Ti.UI.landscape_LEFT || Ti.Gesture.orientation == Ti.UI.landscape_RIGHT ? "landscape" : "portrait"
+	},
 	/**
-	 * Device width dimension
-	 * @type {Number}
+	 * Network status and information
+	 * @type {Object}
+	 * @param {String} type Network type name
+	 * @param {Boolean} online Whether the device is connected to a network
 	 */
-	deviceWidth: Ti.Platform.displayCaps.platformWidth > Ti.Platform.displayCaps.platformHeight ? Ti.Platform.displayCaps.platformHeight : Ti.Platform.displayCaps.platformWidth,
-	/**
-	 * Device height dimension
-	 * @type {Number}
-	 */
-	deviceHeight: Ti.Platform.displayCaps.platformWidth > Ti.Platform.displayCaps.platformHeight ? Ti.Platform.displayCaps.platformWidth : Ti.Platform.displayCaps.platformHeight,
-	/**
-	 * Device DPI value
-	 * @type {Number}
-	 */
-	deviceDpi: Ti.Platform.displayCaps.dpi,
-	/**
-	 * Device OS version information
-	 * @type {Number}
-	 */
-	version: Titanium.Platform.version,
+	Network: {
+		type: Ti.Network.networkTypeName,
+		online: Ti.Network.online
+	},
 	/**
 	 * Sets up the app singleton and all it's child dependencies.
 	 * **NOTE: This should only be fired in index controller file and only once.**
@@ -41,26 +55,49 @@ var App = {
 		Ti.App.addEventListener("pause", App.exit);
 		Ti.App.addEventListener("close", App.exit);
 		Ti.App.addEventListener("resumed", App.resume);
-		Ti.Gesture.addEventListener('orientationchange', App.orientationChange);
+		Ti.Gesture.addEventListener("orientationchange", App.orientationChange);
 
-		// Modify display dimensions, taking into account DPI
 		if(OS_ANDROID) {
 			Ti.Android.currentActivity.addEventListener("resume", App.resume);
-			App.convertAndroidDimensions();
+		}
+		
+		// Determine device characteristics
+		App.determineDevice();
+	},
+	/**
+	 * Determines the device characteristics
+	 */
+	determineDevice: function() {
+		if(OS_IOS) {
+			App.Device.os = "IOS";
+
+			if(Ti.Platform.osname.toUpperCase() == "IPHONE") {
+				App.Device.name = "IPHONE";
+			} else if(Ti.Platform.osname.toUpperCase() == "IPAD") {
+				App.Device.name = "IPAD";
+			}
+		} else if(OS_ANDROID) {
+			App.Device.os = "ANDROID";
+
+			App.Device.name = Ti.Platform.model.toUpperCase();
+
+			// Fix the display values
+			App.Device.width = (App.Device.width / (App.Device.dpi / 160));
+			App.Device.height = (App.Device.height / (App.Device.dpi / 160));
 		}
 	},
 	/**
 	 * Handle cross platform way of opening a main screen.
 	 *
 	 * See example:
-	 *      var login = Alloy.createController("login");
-	 *      App.openScreen(login);
+	 *	 var login = Alloy.createController("login");
+	 *	 App.openScreen(login);
 	 *
 	 * or if you don't need the controller reference:
-	 *      App.openScreen("login");
+	 *	 App.openScreen("login");
 	 *
 	 * This is a simplified, app-wide navigation
-     * example which auto-adds a window to the controller.
+	 * example which auto-adds a window to the controller.
 	 * More could be added here depending on the navigation requirements.
 	 * For instance, if you have a navgroup for handheld, you could open it in that
 	 * for iOS and differently in Android, etc.
@@ -70,6 +107,7 @@ var App = {
 	 */
 	openScreen: function(_controller, _controllerArguments) {
 		var controller = null;
+		
 		if(typeof _controller === "string") {
 			controller = Alloy.createController(_controller, _controllerArguments);
 		} else {
@@ -77,7 +115,7 @@ var App = {
 		}
 
 		// In this example we add a window to a controller
-		// opened via `openScreen`.  Keeping windows out of the
+		// opened via `openScreen`. Keeping windows out of the
 		// UI architecture keep the Views flexible.
 		controller.window = Ti.UI.createWindow({
 			backgroundColor: Alloy.CFG.windowBackgroundColor
@@ -93,14 +131,14 @@ var App = {
 		controller.window.open();
 	},
 	/**
-	 * Helper to bind the orientation events to a controller.  These get added automatically
+	 * Helper to bind the orientation events to a controller. These get added automatically
 	 * for every controller opened via {@link core#openScreen} which have a public `handleOrientation` method.
 	 *
 	 * **NOTE** It is VERY important this is
-	 * managed right because we're adding global events.  They must be removed
-	 * or a leak can happen because of all the closures.  We could slightly
+	 * managed right because we're adding global events. They must be removed
+	 * or a leak can happen because of all the closures. We could slightly
 	 * reduce the closures if we placed these in the individual controllers
-	 * but then we're duplicating code.  This keeps the controllers clean.  Currently,
+	 * but then we're duplicating code. This keeps the controllers clean. Currently,
 	 * this method will _add_ and _remove_ the global events, so things should go
 	 * out of scope and GC'd correctly.
 	 *
@@ -112,11 +150,13 @@ var App = {
 				Ti.App.removeEventListener("orientationChange", _controller.handleOrientation);
 			}
 		});
+		
 		_controller.window.addEventListener("open", function() {
 			Ti.App.addEventListener("orientationChange", function(_event) {
 				if(_controller.handleOrientation) {
 					_controller.handleOrientation(_event);
 				}
+				
 				App.setViewsForOrientation(_controller);
 			});
 		});
@@ -125,62 +165,72 @@ var App = {
 	 * Update views for current orientation helper
 	 *
 	 * We're doing this because Alloy does not have support for
-	 * orientation support in tss files yet.  In order not to duplicate
+	 * orientation support in tss files yet. In order not to duplicate
 	 * a ton of object properties, hardcode them, etc. we're using this method.
 	 *
 	 * Once Alloy has orientation support (e.g. `#myElement[orientation=landscape]`), this
 	 * can be removed and the tss reworked.
 	 *
 	 * All that has to be done is implement the following structure in a `.tss` file:
-	 *      "#myElement": {
-	 *          landscape: { backgroundColor: "red" },
-	 *          portrait: { backgroundColor: "green" }
-	 *      }
+	 *	 "#myElement": {
+	 *		 landscape: { backgroundColor: "red" },
+	 *		 portrait: { backgroundColor: "green" }
+	 *	 }
 	 *
 	 * @param {Controllers} _controller
 	 */
 	setViewsForOrientation: function(_controller) {
-		if(!App.currentOrientation) {
+		if(!App.Device.orientation) {
 			return;
 		}
-		// restricted the UI for portrait and landscape orientation
-		if(App.currentOrientation == 'portrait' || App.currentOrientation == 'landscape') {
+		
+		// Restricted the UI for portrait and landscape orientation
+		if(App.Device.orientation == "portrait" || App.Device.orientation == "landscape") {
 			for(var view in _controller.__views) {
-				if(_controller.__views[view][App.currentOrientation] && typeof _controller.__views[view].applyProperties == "function") {
-					_controller.__views[view].applyProperties(_controller.__views[view][App.currentOrientation]);
-				} else if(_controller.__views[view].wrapper && _controller.__views[view].wrapper[App.currentOrientation] && typeof _controller.__views[view].applyProperties == "function") {
-					_controller.__views[view].applyProperties(_controller.__views[view].wrapper[App.currentOrientation]);
+				if(_controller.__views[view][App.Device.orientation] && typeof _controller.__views[view].applyProperties == "function") {
+					_controller.__views[view].applyProperties(_controller.__views[view][App.Device.orientation]);
+				} else if(_controller.__views[view].wrapper && _controller.__views[view].wrapper[App.Device.orientation] && typeof _controller.__views[view].applyProperties == "function") {
+					_controller.__views[view].applyProperties(_controller.__views[view].wrapper[App.Device.orientation]);
 				}
 			}
 		}
 	},
 	/**
 	 * Global network event handler
-	 * @param  {Object} _event Standard Ti callback
+	 * @param {Object} _event Standard Ti callback
 	 */
-	networkChange: function(_event) {},
+	networkChange: function(_event) {
+		App.Network.type = _event.networkTypeName;
+		App.Network.online = _event.online;
+	},
 	/**
 	 * Exit event observer
+	 * @param {Object} _event Standard Ti callback
 	 */
-	exit: function() {},
+	exit: function(_event) {
+		
+	},
 	/**
 	 * Resume event observer
+	 * @param {Object} _event Standard Ti callback
 	 */
-	resume: function() {},
+	resume: function(_event) {
+		
+	},
 	/**
 	 * Handle the orientation change event callback
 	 * @param {Object} _event Standard Ti Callback
 	 */
 	orientationChange: function(_event) {
-		// ignore FaceUp, Face down and Unknown orientation
+		// Ignore face-up, face-down and unknown orientation
 		if(_event.orientation === Titanium.UI.FACE_UP || _event.orientation === Titanium.UI.FACE_DOWN || _event.orientation === Titanium.UI.UNKNOWN) {
 			return;
 		}
 
-		App.currentOrientation = (_event.source.isLandscape()) ? "landscape" : "portrait";
+		App.Device.orientation = _event.source.isLandscape() ? "landscape" : "portrait";
 
-		// set device height and width based on orientation
-		switch(App.currentOrientation) {
+		// Set device height and width based on orientation
+		switch(App.Device.orientation) {
 			case "portrait":
 				App.deviceWidth = Ti.Platform.displayCaps.platformWidth > Ti.Platform.displayCaps.platformHeight ? Ti.Platform.displayCaps.platformHeight : Ti.Platform.displayCaps.platformWidth;
 				App.deviceHeight = Ti.Platform.displayCaps.platformWidth > Ti.Platform.displayCaps.platformHeight ? Ti.Platform.displayCaps.platformWidth : Ti.Platform.displayCaps.platformHeight;
@@ -200,7 +250,7 @@ var App = {
 		 * @event orientationChange
 		 */
 		Ti.App.fireEvent("orientationChange", {
-			orientation: App.currentOrientation
+			orientation: App.Device.orientation
 		});
 	},
 	/**
@@ -208,8 +258,8 @@ var App = {
 	 */
 	convertAndroidDimensions: function() {
 		if(OS_ANDROID) {
-			App.deviceWidth = (App.deviceWidth / (App.deviceDpi / 160));
-			App.deviceHeight = (App.deviceHeight / (App.deviceDpi / 160));
+			App.Device.width = (App.Device.width / (App.Device.dpi / 160));
+			App.Device.height = (App.Device.height / (App.Device.dpi / 160));
 		}
 	}
 };
