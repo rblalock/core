@@ -2,9 +2,9 @@
 	width: Ti.UI.SIZE,
 	height: Ti.UI.SIZE,
 	landscape: {
-		backgroundColor: "red"
+		backgroundColor: "#7A0000"
 	},
 	portrait: {
-		backgroundColor: "green"
+		backgroundColor: "#007A00"
 	}
 }

@@ -120,6 +120,7 @@ var App = {
 		controller.window = Ti.UI.createWindow({
 			backgroundColor: Alloy.CFG.windowBackgroundColor
 		});
+		
 		controller.window.add( controller.wrapper );
 
 		// Set views for current orientation
