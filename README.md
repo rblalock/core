@@ -7,16 +7,20 @@ Getting Started
 
 To start your application using Core.js simply clone this repository into your Titanium Studio Workspace:
 
+```
 	cd ~/Documents/Titanium_Studio_Workspace
 	git clone git@github.com:mcongrove/core.git
+```
 
 Now you can open Titanium Studio and import the project:
 
+```
 	File > Import… > Existing Mobile Project
+```
 
 At this point you should have the project imported, open, and ready to edit.
 
-High-Level Architecture
+High-Level Overview
 -----------------------
 
 ###### index.js
@@ -50,7 +54,111 @@ A growing list of utility helper methods are available in the `/app/lib/utilitie
 Screen Management
 -----------------
 
-More information coming soon.
+Instead of using a `Ti.UI.Window` for each screen, `core.js` employs a view-based hierarchy for application screens. This allows for more flexibility in how screens are display as it removes the possibility of opening two windows simultaneously (which is very bad).
+
+Each screen should have a `Ti.UI.View` with an `id` of `wrapper`.
+
+###### /app/views/foo.xml
+
+```xml
+	<Alloy>
+		<View id="wrapper">
+			<Label>This is a screen</Label>
+		</View>
+	</Alloy>
+```
+
+We can open this screen by passing it's controller (or controller name, as a string) to the `App.openScreen` method, along with any parameters we may want to pass in.
+
+###### /app/controllers/bar.js
+
+```javascript
+	// Open the 'foo' screen
+	App.openScreen("foo", { … });
+```
+
+#### Multi-View Example
+
+To demonstrate the flexibility of view-based hierarchy, let's examine a tablet use-case. For this example, we'll use the standard master/detail tablet UI.
+
+###### /app/views/master.xml
+
+```xml
+	<Alloy>
+		<View id="wrapper">
+			<TableView id="screensTable">
+				<TableViewRow title="Screen A" />
+				<TableViewRow title="Screen B" />
+				<TableViewRow title="Screen C" />
+			</TableView>
+		</View>
+	</Alloy>
+```
+
+###### /app/views/detail.xml
+
+```xml
+	<Alloy>
+		<View id="wrapper">
+			<Label id="screenName">You're viewing Screen _</Label>
+		</View>
+	</Alloy>
+```
+
+The `home` controller is the screen that is opened when we fire up the application. It has a wrapper view and two containers for the master and detail views (on tablet). On a handheld, we simply have a single-view wrapper (which will be explained shortly).
+
+###### /app/views/home.xml
+
+```xml
+	<Alloy>
+		<View id="wrapper" formFactor="tablet">
+			<View id="master" />
+			<View id="detail" />
+		</View>
+		<View id="wrapper" formFactor="handheld" />
+	</Alloy>
+```
+
+As you can imagine, if we were on a tablet and using windows we'd be in trouble at this point, as the `home` view would be trying to include two sub-windows (giving us a total of three). Instead, though, we simply have a view including two sub-views.
+
+###### /app/controllers/home.js
+
+```javascript
+	// Grab the master screen
+	var masterScreen = Alloy.createController("master");
+	
+	if(Alloy.isTablet) {
+		// Handle the tablet use-case
+		
+		// Grab the detail screen
+		var detailScreen = Alloy.createController("detail");
+		
+		// Add screens to the appropriate containers
+		$.master.add(masterScreen.getView());
+		$.detail(detailScreen.getView());
+		
+		// Handle a click on a table row in master screen,
+		// update the name of the screen in the detail screen
+		masterScreen.screensTable.addEventListener("click", function(_event) {
+			detailScreen.screenName.text = "You're viewing " + _event.row.title;
+		});
+	} else {
+		// Handle handheld use-case
+		
+		// Add master screen to wrapper
+		$.wrapper.add(masterScreen.getView());
+		
+		// Handle a click on a table row in master screen,
+		// open detail screen
+		masterScreen.screensTable.addEventListener("click", function(_event) {
+			App.openScreen("detail", {
+				screenName: _event.row.title
+			});
+		});
+	}
+```
+
+The beauty of this is that for tablets we have two side-by-side views, giving us the classic master/detail tablet UI. For handhelds, though, we can use the exact same controllers, views, and styles to display a typical parent/child UI paradigm (master screen is shown and, when a table row is clicked, the detail screen is opened).
 
 License and Credits
 -------------------

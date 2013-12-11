@@ -121,7 +121,7 @@ var App = {
 			backgroundColor: Alloy.CFG.windowBackgroundColor
 		});
 		
-		controller.window.add( controller.wrapper );
+		controller.window.add(controller.wrapper);
 
 		// Set views for current orientation
 		App.setViewsForOrientation(controller);
