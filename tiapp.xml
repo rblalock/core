@@ -3,10 +3,10 @@
     <id>com.rblalock.core</id>
     <name>Core</name>
     <version>1.0</version>
-    <publisher>rickblalock</publisher>
+    <publisher>Rick Blalock</publisher>
     <url>http://</url>
-    <description>not specified</description>
-    <copyright>2013 by rickblalock</copyright>
+    <description>A boilerplate application built on Titanium Alloy</description>
+    <copyright>2013 by Rick Blalock, Matthew Congrove</copyright>
     <icon>appicon.png</icon>
     <persistent-wifi>false</persistent-wifi>
     <prerendered-icon>false</prerendered-icon>
