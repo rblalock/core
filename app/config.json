@@ -1,6 +1,6 @@
 {
 	"global": {
-		"windowBackgroundColor": "#eee"
+		"windowBackgroundColor": "#FFF"
 	},
 	"env:development": {}, 
 	"env:test": {}, 
