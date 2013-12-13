@@ -6,8 +6,4 @@ tmp
 .map
 /.idea/
 /.settings/
-/CHANGELOG.txt
-/LICENSE.txt
 /Resources/
-
-/plugins/
