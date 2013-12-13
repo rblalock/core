@@ -1,6 +1,7 @@
 "#placeholder": {
 	width: Ti.UI.SIZE,
 	height: Ti.UI.SIZE,
+	color: "#FFF",
 	landscape: {
 		backgroundColor: "#7A0000"
 	},
