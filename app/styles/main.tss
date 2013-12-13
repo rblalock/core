@@ -1,11 +1,34 @@
-"#placeholder": {
-	width: Ti.UI.SIZE,
-	height: Ti.UI.SIZE,
-	color: "#FFF",
+"#wrapper": {
 	landscape: {
-		backgroundColor: "#7A0000"
+		backgroundColor: "#EEE"
 	},
 	portrait: {
-		backgroundColor: "#007A00"
+		backgroundColor: "#222"
+	}
+},
+"#content": {
+	layout: "vertical",
+	height: Ti.UI.SIZE,
+	width: Ti.UI.FILL
+},
+"#logo": {
+	image: "/images/corejs.png",
+	width: 100,
+	height: 116
+},
+"#about": {
+	top: 20,
+	left: 20,
+	right: 20,
+	color: "#EEE",
+	font: {
+		fontSize: 14,
+		fontFamily: "HelveticaNeue-Light"
+	},
+	landscape: {
+		color: "#222"
+	},
+	portrait: {
+		color: "#EEE"
 	}
 }

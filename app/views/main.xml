@@ -1,5 +1,11 @@
 <Alloy>
 	<View id="wrapper">
-		<Label id="placeholder">List Screen Here</Label>
+		<View id="content">
+			<ImageView id="logo" />
+			
+			<Label id="about">
+				Core.js is a boilerplate for Titanium Alloy. Use it to quickly start building applications without all the overhead of having to create screen management methods, utility functions and device detection.
+			</Label>
+		</View>
 	</View>
 </Alloy>

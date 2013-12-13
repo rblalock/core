@@ -78,7 +78,8 @@ var App = {
 		// opened via `openScreen`. Keeping windows out of the
 		// UI architecture keep the Views flexible.
 		controller.window = Ti.UI.createWindow({
-			backgroundColor: Alloy.CFG.windowBackgroundColor
+			backgroundColor: Alloy.CFG.windowBackgroundColor,
+			statusBarStyle: Ti.UI.iPhone.StatusBar.LIGHT_CONTENT
 		});
 		
 		controller.window.add(controller.wrapper);
