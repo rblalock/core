@@ -79,7 +79,7 @@ var App = {
 		// UI architecture keep the Views flexible.
 		controller.window = Ti.UI.createWindow({
 			backgroundColor: Alloy.CFG.windowBackgroundColor,
-			statusBarStyle: Ti.UI.iPhone.StatusBar.LIGHT_CONTENT
+			statusBarStyle: OS_IOS ? Ti.UI.iPhone.StatusBar.LIGHT_CONTENT : null
 		});
 		
 		controller.window.add(controller.wrapper);
