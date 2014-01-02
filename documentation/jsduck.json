@@ -1,0 +1,8 @@
+{
+	"--title": "Core.js Documentation",
+	"--output": "./generatedDocumentation",
+	"--touch-examples": true,
+	"--guides": "./notes.json",
+	"--ignore-global": true,
+	"--head-html": "<link rel=\"stylesheet\" href=\"../layout/styles.css\" type=\"text/css\" />"
+}

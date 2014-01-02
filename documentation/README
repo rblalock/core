@@ -1,0 +1,3 @@
+Install JSDuck for doc generation.
+
+`jsduck ./mmp --config ./docs/jsduck.json`

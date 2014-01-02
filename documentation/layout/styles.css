@@ -1,0 +1,22 @@
+#center-container h1, #center-container h1 .class-source-link {
+  color: #990003;
+  font-family: Tahoma;
+}
+a:link {
+  color: #990003;
+}
+a:visited {
+	color: #990003;
+}
+#north-region {
+  background: #990003;
+}
+#north-region .dropdown {
+  background-position: center right;
+}
+#north-region #header-content {
+  height: 42px;
+  background: none;
+  padding-top: 0px;
+  font-size: 16px;
+}

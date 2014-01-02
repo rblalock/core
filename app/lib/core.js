@@ -1,5 +1,12 @@
 /**
- * The main app singleton used throughout the app.
+ * The main app singleton used throughout the app.  This singleton
+ * can manage your navigation flow, special events that happen throughout
+ * the app lifecycle, etc.
+ *
+ * It's important to understand that this should mainly be a simple app singleton
+ * for managing global things throughout your app.  i.e. If you want to sanitize
+ * some html, you shouldn't put a function to handle that here.
+ *
  * @class core
  * @singleton
  */
@@ -7,7 +14,10 @@ var Alloy = require("alloy");
 
 var App = {
 	/**
-	 * Device information
+	 * Device information, some come from the Ti API calls and can be referenced
+	 * from here so multiple bridge calls aren't necessary, others generated here
+	 * for ease of calculations and such.
+	 *
 	 * @type {Object}
 	 * @param {String} version The version of the OS
 	 * @param {Number} versionMajor The major version of the OS
