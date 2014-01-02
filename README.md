@@ -169,6 +169,10 @@ As you can imagine, if we were on a tablet and using windows we'd be in trouble 
 
 The beauty of this is that for tablets we have two side-by-side views, giving us the classic master/detail tablet UI. For handhelds, though, we can use the exact same controllers, views, and styles to display a typical parent/child UI paradigm (master screen is shown and, when a table row is clicked, the detail screen is opened).
 
+Ti.mocha Tests
+===================
+You can toggle the ti.mocha tests in `config.json` -> mochaTesting
+
 License and Credits
 ===================
 
