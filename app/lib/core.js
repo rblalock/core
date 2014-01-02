@@ -60,17 +60,20 @@ var App = {
 	 * Handle cross platform way of opening a main screen.
 	 *
 	 * See example:
+	 *
 	 * 		var login = Alloy.createController("login");
 	 * 		App.openScreen(login);
 	 *
 	 * or if you don't need the controller reference:
+	 *
 	 * 		App.openScreen("login");
 	 *
 	 * This is a simplified, app-wide navigation
 	 * example which auto-adds a window to the controller.
 	 * More could be added here depending on the navigation requirements.
 	 * For instance, if you have a navgroup for handheld, you could open it in that
-	 * for iOS and differently in Android, etc.
+	 * for iOS and differently in Android, etc.  The point is, managing your
+	 * app navigation flow in one spot is a good idea.
 	 *
 	 * @param {Controllers/String} _controller
 	 * @param {Object} _controllerArguments The arguments for the controller (optional)
