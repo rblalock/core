@@ -77,6 +77,7 @@ var App = {
 	 *
 	 * @param {Controllers/String} _controller
 	 * @param {Object} _controllerArguments The arguments for the controller (optional)
+	 * @return {Controllers} Returns the new controller
 	 */
 	openScreen: function(_controller, _controllerArguments) {
 		var controller = null;
@@ -104,6 +105,8 @@ var App = {
 		App.bindOrientationEvents(controller);
 
 		controller.window.open();
+
+		return controller;
 	},
 	/**
 	 * Helper to bind the orientation events to a controller. These get added automatically
@@ -213,6 +216,7 @@ var App = {
 	},
 	/**
 	 * Determines the device dimensions
+	 * @return {Object} Returns the new values of the new {@link core.Device.width} & {@link core.Device.height} settings
 	 */
 	getDeviceDimensions: function() {
 		// Set device height and width based on orientation
@@ -232,6 +236,11 @@ var App = {
 			App.Device.width = (App.Device.width / (App.Device.dpi / 160));
 			App.Device.height = (App.Device.height / (App.Device.dpi / 160));
 		}
+
+		return {
+			width: App.Device.width,
+			height: App.Device.height
+		};
 	}
 };
 

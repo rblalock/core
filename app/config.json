@@ -1,6 +1,7 @@
 {
 	"global": {
-		"windowBackgroundColor": "#FFF"
+		"windowBackgroundColor": "#FFF",
+		"mochaTesting": true
 	},
 	"env:development": {}, 
 	"env:test": {}, 
