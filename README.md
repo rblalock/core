@@ -20,6 +20,13 @@ Now you can open Titanium Studio and import the project:
 
 At this point you should have the project imported, open, and ready to edit.
 
+Generated Documentation
+===================
+
+1. Install JSDuck for doc generation
+2. Run this command from your project root dir: `jsduck ./app --config ./documentation/jsduck.json`
+3. The documentation html will be in `documentation/generatedDocumentation`
+
 High-Level Overview
 ===================
 
