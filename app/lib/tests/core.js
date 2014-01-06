@@ -62,6 +62,7 @@ describe("core.js", function () {
 
 			try {
 				App.bindOrientationEvents(controller);
+				controller.window.open();
 			} catch(e) {
 				throw new Error(e);
 			}
