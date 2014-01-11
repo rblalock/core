@@ -1,4 +1,4 @@
-[![Core.js](https://github.com/mcongrove/core/raw/master/corejs.png)](https://github.com/mcongrove/core)
+[![Core.js](https://github.com/rblalock/core/raw/master/corejs.png)](https://github.com/mcongrove/core)
 
 Core.js is a boilerplate for [Titanium Alloy](https://github.com/appcelerator/alloy). Use it to quickly start building applications without all the overhead of having to create screen management methods, utility functions and device detection.
 
@@ -9,7 +9,7 @@ To start your application using Core.js simply clone this repository into your T
 
 ```
 	cd ~/Documents/Titanium_Studio_Workspace
-	git clone git@github.com:mcongrove/core.git
+	git clone git@github.com:rblalock/core.git
 ```
 
 Now you can open Titanium Studio and import the project:
