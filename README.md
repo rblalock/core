@@ -61,7 +61,7 @@ A growing list of utility helper methods are available in the `/app/lib/utilitie
 Screen Management
 =================
 
-Instead of using a `Ti.UI.Window` for each screen, `core.js` employs a view-based hierarchy for application screens. This allows for more flexibility in how screens are display as it removes the possibility of opening two windows simultaneously (which is very bad).
+Instead of using a `Ti.UI.Window` for each screen, `core.js` employs a view-based hierarchy for application screens. This allows for more flexibility in how screens are displayed as it removes the possibility of opening two windows simultaneously (which is often problematic).
 
 Each screen should have a `Ti.UI.View` with an `id` of `wrapper`.
 
