@@ -1,6 +1,12 @@
+/**
+ * NOTE:  These are sample unit tests using ti.mocha.
+ * Like core.js, these are just boilerplates for you to use in your app.
+ */
+
 var App = require("core");
 
 require('tests/ti.mocha');
+mocha.setup({ reporter: 'ti-spec-studio' });
 
 // Core.js tests
 describe("core.js", function () {
