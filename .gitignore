@@ -4,7 +4,9 @@ build
 npm-debug.log
 tmp
 .map
-/.idea/
-/.settings/
-/Resources/
+.idea
+.settings
+Resources
 /docs/generatedDocumentation/*
+/documentation/generatedDocumentation/
+/examples/Resources/

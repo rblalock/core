@@ -1,0 +1,26 @@
+/**
+ * Pre-compile will grab the selected example app specified in the config.json
+ * and copy it to the app directory so you don't have to do this manually.
+ */
+task("pre:load", function(event, logger) {
+	var fs = require("fs");
+	var wrench = require("wrench");
+	var config = JSON.parse(fs.readFileSync(event.dir.config + ".json", "utf8"));
+
+	logger.info("Example selected: " + config.global.example);
+
+	// Dir. of example
+	var exampleDirectory = event.dir.project + "/sampleApps/" + config.global.example + "/app/";
+
+	// List of things to copy over
+	var directories = ["assets", "controllers", "lib", "styles", "views", "models"];
+
+	// Move example in to main directory
+	directories.forEach(function(_dir) {
+		logger.info("Copying directory: " + _dir);
+
+		wrench.copyDirSyncRecursive(exampleDirectory + _dir, event.dir.home + "/" + _dir, {
+			forceDelete: true
+		});
+	});
+});
