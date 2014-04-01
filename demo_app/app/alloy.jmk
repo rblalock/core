@@ -1,5 +1,5 @@
 /**
- * Pre-compile will grab the selected example app specified in the config.json
+ * Pre-compile will grab the selected example code specified in the config.json
  * and copy it to the app directory so you don't have to do this manually.
  */
 task("pre:load", function(event, logger) {
@@ -16,7 +16,7 @@ task("pre:load", function(event, logger) {
 	logger.info("Example selected: " + config.global.example);
 
 	// Dir. of example
-	var exampleDirectory = event.dir.project + "/sampleApps/" + config.global.example + "/app/";
+	var exampleDirectory = event.dir.project + "/examples/" + config.global.example + "/";
 
 	// List of things to copy over
 	var directories = ["assets", "controllers", "lib", "styles", "views", "models"];

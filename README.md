@@ -15,10 +15,10 @@ If you want to run the sample apps: Clone this repository into your Titanium Stu
 	git clone git@github.com:rblalock/core.git
 ```
 
-Now you can open Titanium Studio and import the project, which is in the `examples` folder:
+Now you can open Titanium Studio and import the project, which is in the `demo_app` folder:
 
 ```
-	File > Import… > Existing Mobile Project > Select the examples folder (it's where the app is)
+	File > Import… > Existing Mobile Project > Select the demo_app folder (it's where the app is)
 ```
 
 At this point you should have the project imported, open, and ready to edit.
@@ -60,7 +60,7 @@ A growing list of utility helper methods are available in the `/app/lib/utilitie
 
 Ti.mocha Tests
 ===================
-You can toggle the ti.mocha tests in `examples/app/config.json` -> mochaTesting
+You can toggle the ti.mocha tests in `demo_app/app/config.json` -> mochaTesting
 
 License and Credits
 ===================

@@ -59,7 +59,7 @@ var App = {
 		}
 
 		// Require in the navigation strategy used
-		App.Navigator = require("simpleNavigationStrategy")();
+		App.Navigator = require("navigation")();
 
 		// Get device dimensions
 		App.getDeviceDimensions();

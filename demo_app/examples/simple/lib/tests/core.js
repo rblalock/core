@@ -61,7 +61,7 @@ describe("core.js", function () {
 });
 
 // Navigation tests
-describe("simpleNavigationStrategy.js", function () {
+describe("navigation.js", function () {
 	// Open Screen Routines
 	describe("openScreen();", function () {
 		it("Opens a controller via a string", function () {
