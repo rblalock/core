@@ -18,7 +18,7 @@ If you want to run the sample apps: Clone this repository into your Titanium Stu
 Now you can open Titanium Studio and import the project, which is in the `examples` folder:
 
 ```
-	File > Import… > Existing Mobile Project
+	File > Import… > Existing Mobile Project > Select the examples folder (it's where the app is)
 ```
 
 At this point you should have the project imported, open, and ready to edit.
