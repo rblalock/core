@@ -1,4 +1,4 @@
-[![Core.js](https://github.com/rblalock/core/raw/master/corejs.png)](https://github.com/mcongrove/core)
+[![Core.js](https://github.com/rblalock/core/raw/master/corejs.png)](https://github.com/rblalock/core)
 
 Core.js is a boilerplate for [Titanium Alloy](https://github.com/appcelerator/alloy). Use it to quickly start building applications without all the overhead of having to create screen management methods, utility functions and device detection.
 
@@ -23,6 +23,29 @@ Now you can open Titanium Studio and import the project, which is in the `demo_a
 
 At this point you should have the project imported, open, and ready to edit.
 
+Examples
+===================
+We made it easy to run these examples all in one Ti project.  First, import this app in to Studio,
+then in the root project, open `/app/config.json` and change the name of the `"examples"`
+property to the example you want to run.
+
+e.g. Change the name to "simple" to run the simple sample app.
+
+## Current examples:
+
+### simple
+
+This is a simple example using core.js.  Nothing fancy, just a bare bone example of Core which
+implements and tests the basic methods in Core.js.  It also has a simple starting place for a
+navigation strategy.
+
+### viewNavigation
+
+This example uses a view-based navigation architecture. A view-based navigation architecture
+means there is only one main window and views are moved in and out of a stack when navigating
+the app.
+
+
 Generated Documentation
 ===================
 
@@ -43,15 +66,20 @@ The `/app/lib/core.js` file is home to the bulk of the boilerplate (hence the na
  * Screen management via the Navigator object (which should be a module specific to your navigation
  strategy).
 
-Any methods you create that are used throughout the application and relate to any of these functions should probably also be included in the `core.js` file.
+Any methods you create that are used throughout the application and relate to any of these
+functions should probably also be included in the `core.js` file.
 
 ##### http.js
 
-The included `/app/lib/http.js` library is used to make HTTP requests and includes support for the most-used functionality. The HTTP library also adds some bonuses, such as data pass-through, which lets you send identifying information along with the HTTP request and receive it in the data return callback, helping associate data return with data requests.
+The included `/app/lib/http.js` library is used to make HTTP requests and includes support for
+the most-used functionality. The HTTP library also adds some bonuses, such as data pass-through,
+which lets you send identifying information along with the HTTP request and receive it in the
+data return callback, helping associate data return with data requests.
 
 ##### utilities.js
 
-A growing list of utility helper methods are available in the `/app/lib/utilities.js` file. These include:
+A growing list of utility helper methods are available in the `/app/lib/utilities.js` file.
+These include:
 
  * File existance
  * Number formatting
