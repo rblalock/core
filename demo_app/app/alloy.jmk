@@ -1,0 +1,32 @@
+/**
+ * Pre-compile will grab the selected example code specified in the config.json
+ * and copy it to the app directory so you don't have to do this manually.
+ */
+task("pre:load", function(event, logger) {
+	var fs = require("fs");
+	var config = JSON.parse(fs.readFileSync(event.dir.config + ".json", "utf8"));
+
+	// Check for the presence of wrench (Is this even needed?  Seems like it might come with Alloy)
+	try {
+		var wrench = require("wrench");
+	} catch(e) {
+		throw new Error("You must install wrench to use this!  Enter this in the console: sudo npm install wrench -g");
+	}
+
+	logger.info("Example selected: " + config.global.example);
+
+	// Dir. of example
+	var exampleDirectory = event.dir.project + "/examples/" + config.global.example + "/";
+
+	// List of things to copy over
+	var directories = ["assets", "controllers", "lib", "styles", "views", "models"];
+
+	// Move example in to main directory
+	directories.forEach(function(_dir) {
+		logger.info("Copying directory: " + _dir);
+
+		wrench.copyDirSyncRecursive(exampleDirectory + _dir, event.dir.home + "/" + _dir, {
+			forceDelete: true
+		});
+	});
+});
