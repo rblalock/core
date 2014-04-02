@@ -1,3 +1,3 @@
 1. Install JSDuck for doc generation
-2. Run this command from your project root dir: `jsduck ./app --config ./documentation/jsduck.json`
+2. Run this command from your project root dir: `jsduck ./lib --config ./documentation/jsduck.json`
 3. The documentation html will be in `generatedDocumentation`
