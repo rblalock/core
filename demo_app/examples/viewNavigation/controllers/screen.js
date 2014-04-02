@@ -15,7 +15,7 @@ $.params = arguments[0] || {};
 $.wrapper.backgroundColor = $.params.backgroundColor || "white";
 $.label.text = $.params.text || "Unnamed Screen";
 
-// Tapping opens a new screen controller
+// Tapping demonstrates opening a new screen controller
 $.wrapper.addEventListener("click", function() {
 	var colors = ["red", "green", "white", "navy"];
 
@@ -25,14 +25,14 @@ $.wrapper.addEventListener("click", function() {
 	});
 });
 
-// Swiping right closes the current screen
+// Swiping right demonstrates closing the current screen
 $.wrapper.addEventListener("swipe", function(_event) {
 	if(_event.direction === "right") {
 		App.Navigator.close();
 	}
 });
 
-// Pinching jumps to home
+// Pinching example demonstrates going all the way back to home
 $.wrapper.addEventListener("pinch", function onPinch(_event) {
 	if(_event.scale < 0.6) {
 		App.Navigator.closeToHome();

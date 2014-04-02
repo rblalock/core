@@ -3,9 +3,11 @@
  * This particular module manages a stack of views added to a specific parent
  * most common in a one-window architecture.
  *
- * The only convention this module expects is the top most view in your controllers
- * should have an ID of "wrapper".  TODO remove this convention requirement since
- * we can get the top parent regardless of ID.
+ * The only conventions this module expects is the top most view in your controllers
+ * should have an ID of "wrapper" and it should have 100% width / height and opacity set to 0.
+ *
+ * TODO remove this convention requirement since we can get the top parent regardless of ID
+ * and programmatically set the other things.
  *
  * @class Navigation
  */
@@ -17,8 +19,9 @@
  * @constructor
  */
 function Navigation(_args) {
-	_args = _args || {};
 	var that = this;
+
+	_args = _args || {};
 
 	/**
 	 * Whether or not the navigation module is busy opening/closing a screen

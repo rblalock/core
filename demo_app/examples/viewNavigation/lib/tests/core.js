@@ -8,85 +8,102 @@ var App = require("core");
 require('tests/ti.mocha');
 mocha.setup({ reporter: 'ti-spec-studio' });
 
-// Core.js tests
-describe("core.js", function () {
-	// Device Dimensions
-	describe("getDeviceDimensions();", function () {
-		it("Returns an object of width / height of device's screen", function() {
-			var dimensions = App.getDeviceDimensions();
-
-			if(!dimensions.width && !dimensions.height) {
-				throw new Error();
-			}
-		});
-
-		it("Should populate the App.Device object", function() {
-			App.getDeviceDimensions();
-
-			if(!App.Device.width && !App.Device.height) {
-				throw new Error();
-			}
-		});
-	});
-
-	// Orientation handling in controllers
-	describe("Orientation Handling", function () {
-		it("Bind orientation handling to a controller", function () {
-			var controller = Alloy.createController("main");
-			controller.window = Ti.UI.createWindow();
-
-			if(!controller.handleOrientation) {
-				throw new Error("No handleOrientation method available");
-			}
-
-			try {
-				App.bindOrientationEvents(controller);
-				controller.window.open();
-			} catch(e) {
-				throw new Error(e);
-			}
-		});
-
-		it("Set views on controller based on orientation", function () {
-			var controller = Alloy.createController("main");
-			controller.window = Ti.UI.createWindow();
-
-			try {
-				App.setViewsForOrientation(controller);
-			} catch (e) {
-				throw new Error(e);
-			}
-		});
-	});
-});
-
 // Navigation tests
 describe("navigation.js", function () {
-	// Open Screen Routines
-	describe("openScreen();", function () {
-		it("Opens a controller via a string", function () {
-			if(!App.Navigator.openScreen("main")) {
-				throw new Error();
-			}
+	// Open controller test
+	it("open(); Opens a controller via a string", function () {
+		var window = Ti.UI.createWindow({ backgroundColor: "#eee" });
+		window.open();
+
+		// Require in the navigation module
+		var navigator = require("navigation")({
+			parent: window
 		});
 
-		it("Opens a controller via an Alloy controller object", function () {
-			var controller = Alloy.createController("main");
+		navigator.open("screen");
 
-			if(!App.Navigator.openScreen(controller)) {
-				throw new Error();
-			}
+		if(navigator.controllers.length < 1) {
+			throw new Error();
+		}
+	});
+
+	// Close controller test
+	it("close(); Closes a controller", function (done) {
+		var window = Ti.UI.createWindow({ backgroundColor: "#eee" });
+		window.open();
+
+		// Require in the navigation module
+		var navigator = require("navigation")({
+			parent: window
 		});
 
-		// This is for the specific navigation case we have in this app where
-		// we auto add a window to any controller opened via openScreen();
-		it("Controller opened via openScreen() should have a window", function () {
-			var controller = App.Navigator.openScreen("main");
+		navigator.open("screen");
 
-			if(!controller.window) {
-				throw new Error();
+		// Make sure the navigator isn't busy, then run the test
+		var interval = setInterval(function() {
+			if(!navigator.isBusy) {
+				navigator.close(function() {
+					if(navigator.controllers.length > 0) {
+						throw new Error();
+					}
+
+					done();
+				});
+
+				clearInterval(interval);
 			}
+		}, 100);
+	});
+
+	// Go to home controller text
+	it("closeToHome(); Closes all but first controller", function (done) {
+		var window = Ti.UI.createWindow({ backgroundColor: "#eee" });
+		window.open();
+
+		// Require in the navigation module
+		var navigator = require("navigation")({
+			parent: window
 		});
+
+		navigator.open("screen");
+		navigator.open("screen");
+
+		// Make sure the navigator isn't busy, then run the test
+		var interval = setInterval(function() {
+			if(!navigator.isBusy) {
+				navigator.closeToHome(function() {
+					if(navigator.controllers.length !== 1) {
+						throw new Error();
+					}
+
+					done();
+				});
+
+				clearInterval(interval);
+			}
+		}, 100);
+	});
+
+	// Close all controllers
+	it("closeAll(); Closes all controllers", function () {
+		var window = Ti.UI.createWindow({ backgroundColor: "#eee" });
+		window.open();
+
+		// Require in the navigation module
+		var navigator = require("navigation")({
+			parent: window
+		});
+
+		navigator.open("screen");
+		navigator.open("screen");
+		navigator.open("screen");
+		navigator.open("screen");
+
+		navigator.closeAll();
+
+		if(navigator.controllers.length > 0) {
+			throw new Error();
+		}
 	});
 });
 
