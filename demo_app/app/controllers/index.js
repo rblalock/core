@@ -6,4 +6,4 @@
 var App = require("core");
 App.init();
 
-App.Navigator.openScreen("main");
+App.Navigator.open("main");

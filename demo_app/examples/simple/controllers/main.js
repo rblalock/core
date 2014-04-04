@@ -5,7 +5,7 @@
 
 /**
  * Public method to handle orientation if this controller
- * is opened via {@link core#openScreen} or if
+ * is opened via {@link navigation#open} or if
  * {@link core#bindOrientationEvents} is applied to this controller
  * @param {Object} _event
  */

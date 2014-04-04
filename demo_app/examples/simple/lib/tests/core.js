@@ -65,7 +65,7 @@ describe("navigation.js", function () {
 	// Open Screen Routines
 	describe("openScreen();", function () {
 		it("Opens a controller via a string", function () {
-			if(!App.Navigator.openScreen("main")) {
+			if(!App.Navigator.open("main")) {
 				throw new Error();
 			}
 		});
@@ -73,7 +73,7 @@ describe("navigation.js", function () {
 		it("Opens a controller via an Alloy controller object", function () {
 			var controller = Alloy.createController("main");
 
-			if(!App.Navigator.openScreen(controller)) {
+			if(!App.Navigator.open(controller)) {
 				throw new Error();
 			}
 		});
@@ -81,7 +81,7 @@ describe("navigation.js", function () {
 		// This is for the specific navigation case we have in this app where
 		// we auto add a window to any controller opened via openScreen();
 		it("Controller opened via openScreen() should have a window", function () {
-			var controller = App.Navigator.openScreen("main");
+			var controller = App.Navigator.open("main");
 
 			if(!controller.window) {
 				throw new Error();

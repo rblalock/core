@@ -34,7 +34,7 @@ function Navigation(_args) {
 	 * @param {Object} _controllerArguments The arguments for the controller (optional)
 	 * @return {Controllers} Returns the new controller
 	 */
-	this.openScreen = function(_controller, _controllerArguments) {
+	this.open = function(_controller, _controllerArguments) {
 		var controller = null;
 
 		if(typeof _controller === "string") {
