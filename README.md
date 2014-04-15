@@ -51,6 +51,18 @@ This example uses a view-based navigation architecture. A view-based navigation 
 means there is only one main window and views are moved in and out of a stack when navigating
 the app.
 
+Example video:
+[iOS](http://www.screencast.com/t/pcXtxaGhHKlD)
+
+### standardNavigation
+
+This example uses the standard navigation architectures for Android and iOS.
+e.g. NavigationWindow for iOS and the ActionBar for Android.
+
+Example Videos:
+
+[Android](http://www.screencast.com/t/u8zKOZFQ8c)
+[iOS](http://www.screencast.com/t/LgcM7IH0Du6P)
 
 Generated Documentation
 ===================
