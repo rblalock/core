@@ -1,0 +1,15 @@
+<Alloy>
+	<Window id="window" title="Child Screen">
+		<Menu id="menu" platform="android">
+			<MenuItem
+				id="menuItem"
+				title="New Screen"
+				showAsAction="Ti.Android.SHOW_AS_ACTION_ALWAYS"
+				onClick="handleMenuItem" />
+		</Menu>
+
+		<View id="wrapper">
+			<Label id="label">Child Screen</Label>
+		</View>
+	</Window>
+</Alloy>

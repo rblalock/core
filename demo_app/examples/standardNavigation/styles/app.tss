@@ -1,0 +1,7 @@
+"Window": {
+	backgroundColor: "#eee"
+},
+"Label": {
+	color: "#222",
+	font: { fontSize: 24 }
+}

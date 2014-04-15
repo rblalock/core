@@ -1,0 +1,3 @@
+"MenuItem": {
+	showAsAction: Ti.Android.SHOW_AS_ACTION_IF_ROOM,
+}

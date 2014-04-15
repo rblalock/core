@@ -31,7 +31,12 @@
             <orientation>Ti.UI.LANDSCAPE_RIGHT</orientation>
         </orientations>
     </iphone>
-    <android xmlns:android="http://schemas.android.com/apk/res/android"/>
+	<android xmlns:android="http://schemas.android.com/apk/res/android">
+		<tool-api-level>14</tool-api-level>
+		<manifest>
+			<application android:theme="@android:style/Theme.Holo.Light" />
+		</manifest>
+	</android>
     <mobileweb>
         <precache/>
         <splash>

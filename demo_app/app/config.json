@@ -2,7 +2,7 @@
 	"global": {
 		"windowBackgroundColor": "#FFF",
 		"mochaTesting": false,
-		"example": "viewNavigation"
+		"example": "standardNavigation"
 	},
 	"env:development": {}, 
 	"env:test": {}, 

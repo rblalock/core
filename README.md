@@ -31,6 +31,12 @@ property to the example you want to run.
 
 e.g. Change the name to "simple" to run the simple sample app.
 
+If you want to use the example in your project, there are two ways to do this:
+
+1.  Copy the example from `/demo_app/examples/yourDesiredExample` to your project's `app` folder
+2.  Alternatively, you can remove the `alloy.jmk` file in the demo app so it doesn't keep pulling from
+the examples folder.
+
 ## Current examples:
 
 ### simple
