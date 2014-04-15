@@ -10,6 +10,6 @@ stack of views or windows.  Those examples can be mixed here with the concept be
 
 Example Videos:
 
-[http://www.screencast.com/t/u8zKOZFQ8c](Android)
+[Android](http://www.screencast.com/t/u8zKOZFQ8c)
 
-[http://www.screencast.com/t/LgcM7IH0Du6P](iOS)
+[iOS](http://www.screencast.com/t/LgcM7IH0Du6P)
