@@ -3,12 +3,6 @@
  * This particular module manages a stack of views added to a specific parent
  * most common in a one-window architecture.
  *
- * The only conventions this module expects is the top most view in your controllers
- * should have an ID of "wrapper" and it should have 100% width / height and opacity set to 0.
- *
- * TODO remove this convention requirement since we can get the top parent regardless of ID
- * and programmatically set the other things.
- *
  * @class Navigation
  */
 
@@ -71,7 +65,7 @@ function Navigation(_args) {
 
 		that.currentController = controller;
 
-		that.parent.add(that.currentController.wrapper);
+		that.parent.add(that.currentController.getView());
 
 		// Handle if the current controller has an override way of opening itself
 		if(that.currentController.open) {
@@ -103,7 +97,7 @@ function Navigation(_args) {
 
 		// Animate in the previous controller
 		if(incomingController) {
-			that.parent.add(incomingController.wrapper);
+			that.parent.add(incomingController.getView());
 
 			if(incomingController.open) {
 				incomingController.open();
@@ -146,7 +140,7 @@ function Navigation(_args) {
 
 		// Animate in the previous controller
 		if(incomingController) {
-			that.parent.add(incomingController.wrapper);
+			that.parent.add(incomingController.getView());
 
 			if(incomingController.open) {
 				incomingController.open();
@@ -178,7 +172,7 @@ function Navigation(_args) {
 	 */
 	this.closeAll = function() {
 		for(var i = 0, x = that.controllers.length; i < x; i++) {
-			that.parent.remove(that.controllers[i].wrapper);
+			that.parent.remove(that.controllers[i].getView());
 		}
 
 		that.controllers = [];
@@ -204,7 +198,7 @@ function Navigation(_args) {
 
 		animation.addEventListener("complete", function onComplete() {
 			for(var i = 0, x = that.controllers.length; i > 1 && i < x; i++) {
-				that.parent.remove(that.controllers[i].wrapper);
+				that.parent.remove(that.controllers[i].getView());
 			}
 
 			if(_callback) {
@@ -214,7 +208,7 @@ function Navigation(_args) {
 			animation.removeEventListener("complete", onComplete);
 		});
 
-		_controller.wrapper.animate(animation);
+		_controller.getView().animate(animation);
 	};
 
 	/**
@@ -243,12 +237,12 @@ function Navigation(_args) {
 		Ti.API.trace(that.parent.size.width);
 
 		if(OS_IOS) {
-			_controller.wrapper.left = (_direction === "left") ? -that.parent.size.width : that.parent.size.width;
+			_controller.getView().left = (_direction === "left") ? -that.parent.size.width : that.parent.size.width;
 
 			animation.left = 0;
 		}
 
-		_controller.wrapper.animate(animation);
+		_controller.getView().animate(animation);
 	};
 
 	/**
@@ -264,7 +258,7 @@ function Navigation(_args) {
 		});
 
 		animation.addEventListener("complete", function onComplete() {
-			that.parent.remove(_controller.wrapper);
+			that.parent.remove(_controller.getView());
 
 			if(_callback) {
 				_callback();
@@ -275,7 +269,7 @@ function Navigation(_args) {
 
 		animation.left = (_direction === "left") ? -that.parent.size.width : that.parent.size.width;
 
-		_controller.wrapper.animate(animation);
+		_controller.getView().animate(animation);
 	};
 
 	/**
@@ -285,8 +279,8 @@ function Navigation(_args) {
 		var stack = [];
 
 		for(var i = 0, x = that.controllers.length; i < x; i++) {
-			if(that.controllers[i].wrapper.controller) {
-				stack.push(that.controllers[i].wrapper.controller);
+			if(that.controllers[i].getView().controller) {
+				stack.push(that.controllers[i].getView().controller);
 			}
 		}
 

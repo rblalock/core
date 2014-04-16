@@ -44,9 +44,9 @@ function Navigation(_args) {
 		// without having to be bound by a window (useful for tablet architecture)
 
 		if(OS_IOS) {
-			that.parent.openWindow(controller.window);
+			that.parent.openWindow(controller.getView());
 		} else {
-			controller.window.open();
+			controller.getView().open();
 		}
 
 		return controller;
