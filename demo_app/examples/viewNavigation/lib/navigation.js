@@ -178,6 +178,8 @@ function Navigation(_args) {
 		that.controllers = [];
 		that.currentController = null;
 
+		that.isBusy = false;
+
 		// that.testOutput();
 	};
 
@@ -200,6 +202,8 @@ function Navigation(_args) {
 			for(var i = 0, x = that.controllers.length; i > 1 && i < x; i++) {
 				that.parent.remove(that.controllers[i].getView());
 			}
+
+			that.isBusy = false;
 
 			if(_callback) {
 				_callback();
@@ -259,6 +263,8 @@ function Navigation(_args) {
 
 		animation.addEventListener("complete", function onComplete() {
 			that.parent.remove(_controller.getView());
+
+			that.isBusy = false;
 
 			if(_callback) {
 				_callback();
