@@ -189,16 +189,32 @@ function Navigation(_args) {
 	 * @param {Function} _callback
 	 */
 	this.animateDisappear = function(_controller, _callback) {
-		var animation = Ti.UI.createAnimation({
-			transform: Ti.UI.create2DMatrix({
-				scale: 0
-			}),
-			opacity: 0,
-			curve: Ti.UI.ANIMATION_CURVE_EASE_IN,
-			duration: 300
-		});
+		if(OS_IOS || OS_ANDROID) {
+			var animation = Ti.UI.createAnimation({
+				transform: Ti.UI.create2DMatrix({
+					scale: 0
+				}),
+				opacity: 0,
+				curve: Ti.UI.ANIMATION_CURVE_EASE_IN,
+				duration: 300
+			});
 
-		animation.addEventListener("complete", function onComplete() {
+			animation.addEventListener("complete", function onComplete() {
+				for(var i = 0, x = that.controllers.length; i > 1 && i < x; i++) {
+					that.parent.remove(that.controllers[i].getView());
+				}
+
+				that.isBusy = false;
+
+				if(_callback) {
+					_callback();
+				}
+
+				animation.removeEventListener("complete", onComplete);
+			});
+
+			_controller.getView().animate(animation);
+		} else {
 			for(var i = 0, x = that.controllers.length; i > 1 && i < x; i++) {
 				that.parent.remove(that.controllers[i].getView());
 			}
@@ -208,11 +224,7 @@ function Navigation(_args) {
 			if(_callback) {
 				_callback();
 			}
-
-			animation.removeEventListener("complete", onComplete);
-		});
-
-		_controller.getView().animate(animation);
+		}
 	};
 
 	/**
@@ -222,31 +234,39 @@ function Navigation(_args) {
 	 * @param {Function} _callback
 	 */
 	this.animateIn = function(_controller, _direction, _callback) {
-		var animation = Ti.UI.createAnimation({
-			opacity: 1,
-			duration: 300
-		});
+		if(OS_IOS || OS_ANDROID) {
+			var animation = Ti.UI.createAnimation({
+				opacity: 1,
+				duration: 300
+			});
 
-		animation.addEventListener("complete", function onComplete() {
+			animation.addEventListener("complete", function onComplete() {
+				that.isBusy = false;
+
+				if(_callback) {
+					_callback();
+				}
+
+				animation.removeEventListener("complete", onComplete);
+			});
+
+			// WEIRD hack to ensure the animation below works on iOS.
+			Ti.API.trace(that.parent.size.width);
+
+			if(OS_IOS) {
+				_controller.getView().left = (_direction === "left") ? -that.parent.size.width : that.parent.size.width;
+
+				animation.left = 0;
+			}
+
+			_controller.getView().animate(animation);
+		} else {
+			that.isBusy = false;
+
 			if(_callback) {
 				_callback();
 			}
-
-			that.isBusy = false;
-
-			animation.removeEventListener("complete", onComplete);
-		});
-
-		// WEIRD hack to ensure the animation below works on iOS.
-		Ti.API.trace(that.parent.size.width);
-
-		if(OS_IOS) {
-			_controller.getView().left = (_direction === "left") ? -that.parent.size.width : that.parent.size.width;
-
-			animation.left = 0;
 		}
-
-		_controller.getView().animate(animation);
 	};
 
 	/**
@@ -256,12 +276,28 @@ function Navigation(_args) {
 	 * @param {Function} _callback
 	 */
 	this.animateOut = function(_controller, _direction, _callback) {
-		var animation = Ti.UI.createAnimation({
-			opacity: 0,
-			duration: 300
-		});
+		if(OS_IOS || OS_ANDROID) {
+			var animation = Ti.UI.createAnimation({
+				opacity: 0,
+				duration: 300
+			});
 
-		animation.addEventListener("complete", function onComplete() {
+			animation.addEventListener("complete", function onComplete() {
+				that.parent.remove(_controller.getView());
+
+				that.isBusy = false;
+
+				if(_callback) {
+					_callback();
+				}
+
+				animation.removeEventListener("complete", onComplete);
+			});
+
+			animation.left = (_direction === "left") ? -that.parent.size.width : that.parent.size.width;
+
+			_controller.getView().animate(animation);
+		} else {
 			that.parent.remove(_controller.getView());
 
 			that.isBusy = false;
@@ -269,13 +305,7 @@ function Navigation(_args) {
 			if(_callback) {
 				_callback();
 			}
-
-			animation.removeEventListener("complete", onComplete);
-		});
-
-		animation.left = (_direction === "left") ? -that.parent.size.width : that.parent.size.width;
-
-		_controller.getView().animate(animation);
+		}
 	};
 
 	/**

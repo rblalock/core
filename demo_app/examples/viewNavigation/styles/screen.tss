@@ -3,6 +3,12 @@
 	height: "100%",
 	opacity: 0
 },
+"#wrapper[platform=blackberry]": {
+	opacity: 1
+},
+"#wrapper[platform=mobileweb]": {
+	opacity: 1
+},
 "Label": {
 	width: Ti.UI.SIZE,
 	height: 200
