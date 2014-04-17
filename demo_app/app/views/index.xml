@@ -1,13 +1,3 @@
 <Alloy>
-	<!-- iOS Structure -->
-	<NavigationWindow id="navWindow" platform="ios">
-		<Window id="indexWindow" title="Home">
-			<Label id="label">Home Window</Label>
-		</Window>
-	</NavigationWindow>
-
-	<!-- Android Structure -->
-	<Window id="indexWindow" platform="android" title="Home">
-		<Label id="label">Home Window</Label>
-	</Window>
+	<Window id="window" />
 </Alloy>

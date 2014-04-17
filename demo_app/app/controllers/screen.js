@@ -11,21 +11,30 @@ var App = require("core");
  */
 $.params = arguments[0] || {};
 
-/**
- * Handle opening a new screen
- */
-function handleMenuItem() {
-	App.Navigator.open("screen");
-}
+// Set UI based on params passed to controller
+$.wrapper.backgroundColor = $.params.backgroundColor || "white";
+$.label.text = $.params.text || "Unnamed Screen";
 
-if(OS_ANDROID) {
-	$.window.addEventListener("open", function() {
-		var actionBar = $.window.activity.actionBar;
-		actionBar.displayHomeAsUp = true;
-		actionBar.onHomeIconItemSelected = function () {
-			$.window.close();
-		};
+// Tapping demonstrates opening a new screen controller
+$.wrapper.addEventListener("click", function() {
+	var colors = ["red", "green", "white", "navy"];
+
+	App.Navigator.open("screen", {
+		backgroundColor: colors[Math.floor(Math.random() * colors.length)],
+		text: "Sub Screen"
 	});
-} else {
-	$.label.addEventListener("click", handleMenuItem);
-}
+});
+
+// Swiping right demonstrates closing the current screen
+$.wrapper.addEventListener("swipe", function(_event) {
+	if(_event.direction === "right") {
+		App.Navigator.close();
+	}
+});
+
+// Pinching example demonstrates going all the way back to home
+$.wrapper.addEventListener("pinch", function onPinch(_event) {
+	if(_event.scale < 0.6) {
+		App.Navigator.closeToHome();
+	}
+});

@@ -43,10 +43,10 @@ var App = {
 	 */
 	Navigator: {},
 	/**
-	 * The global navigation window used in the app.  iOS only.
+	 * The global window used in the app
 	 * @type {Object}
 	 */
-	navigationWindow: null,
+	globalWindow: {},
 	/**
 	 * Sets up the app singleton and all it's child dependencies.
 	 * **NOTE: This should only be fired in index controller file and only once.**
@@ -65,7 +65,7 @@ var App = {
 
 		// Require in the navigation module
 		App.Navigator = require("navigation")({
-			parent: App.navigationWindow || null
+			parent: App.globalWindow
 		});
 
 		// Get device dimensions

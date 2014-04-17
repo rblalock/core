@@ -5,17 +5,15 @@
 // App bootstrap
 var App = require("core");
 
-// Make sure we always have a reference to the navigation window for iOS
-if(OS_IOS) {
-	App.navigationWindow = $.navWindow;
-	App.navigationWindow.open();
-} else {
-	$.indexWindow.open();
-}
+// Make sure we always have a reference to the root window
+App.globalWindow = $.window;
+App.globalWindow.open();
 
 // Init our app singleton
 App.init();
 
-$.label.addEventListener("click", function() {
-	App.Navigator.open("screen");
+// Open the first screen
+App.Navigator.open("screen", {
+	backgroundColor: "white",
+	text: "Home Screen"
 });

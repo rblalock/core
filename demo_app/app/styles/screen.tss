@@ -1,3 +1,9 @@
-"MenuItem": {
-	showAsAction: Ti.Android.SHOW_AS_ACTION_IF_ROOM,
+"#wrapper": {
+	width: "100%",
+	height: "100%",
+	opacity: 0
+},
+"Label": {
+	width: Ti.UI.SIZE,
+	height: 200
 }
