@@ -129,7 +129,7 @@ function Navigation(_args) {
 	 * @param {Function} _callback
 	 */
 	this.closeToHome = function(_callback) {
-		if(that.isBusy) {
+		if(that.isBusy || that.controllers.length == 1) {
 			return;
 		}
 
