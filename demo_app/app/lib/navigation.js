@@ -255,9 +255,8 @@ function Navigation(_args) {
 
 			if(OS_IOS) {
 				_controller.getView().left = (_direction === "left") ? -that.parent.size.width : that.parent.size.width;
-
-				animation.left = 0;
 			}
+                        animation.left = 0;
 
 			_controller.getView().animate(animation);
 		} else {
